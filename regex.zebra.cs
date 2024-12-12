@@ -28,4 +28,4 @@ var content = """
 
 """;
 
-Regex.Match(content, "(?<=\\^DFR:)(?=\\^FS)").Dump();
+Regex.Match(content, "(?<=\\^DFR:).*(?=\\^FS)").Value.Dump();
