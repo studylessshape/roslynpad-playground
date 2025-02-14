@@ -4,12 +4,13 @@ algorithmSelection.SelectLocation(new InventoryInput()
 {
     Inventories = new IInventoryItem[]
     {
-        new InventoryItem() { Column = 10, Quantity = 300 },
-        new InventoryItem() { Column = 14, Quantity = 600 },
-        new InventoryItem() { Column = 9, Quantity = 200 },
-        new InventoryItem() { Column = 13, Quantity = 600 },
+        new InventoryItem() { Column = 10, Quantity = 2.944m },
+        new InventoryItem() { Column = 14, Quantity = 3.436m },
+        new InventoryItem() { Column = 9, Quantity = 2.37m },
+        new InventoryItem() { Column = 13, Quantity = 3.3311m },
+        new InventoryItem() { Column = 12, Quantity = 4.82m },
     },
-    Required = 500.0m,
+    Required = 7.4321m,
     CanOver = true
 }).Dump("RESULT");
 
@@ -115,7 +116,7 @@ public class LocationSelection
         }
 
         var selected = DpSearch(input.Required, inventoryItems, input.Precision);
-
+        selected.Dump("Before Over add");
         var result = new InventoryResult { Locations = selected, TotalQuantity = selected.Sum(inv => inv.Quantity) };
 
         // 添加额外的内容，确保可以超出需要的大小
