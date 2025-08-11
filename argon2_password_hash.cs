@@ -2,8 +2,11 @@
 using Konscious.Security.Cryptography;
 
 var passwordHasher = new DefaultPasswordHasher();
+var time = DateTime.Now;
 passwordHasher.GetPasswordHash("system").Dump("System Password: ");
-passwordHasher.GetPasswordHash("admin").Dump("Admin Password: ");
+var afterTime = DateTime.Now;
+Console.WriteLine($"Cost time: {afterTime - time}");
+passwordHasher.GetPasswordHash("123456").Dump("Admin Password: ");
 passwordHasher.GetPasswordHash("operator").Dump("Operator Password: ");
 
 /// <summary>
