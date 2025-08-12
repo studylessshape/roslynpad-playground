@@ -46,19 +46,14 @@ class DataNode(Data data) : IChildren<DataNode> {
     
      public override string ToString()
     {
-        return $"Data: {Data!.ToString()}";
+        return $"Data: {Data?.ToString() ?? "null"}";
     }
 }
 
-class DataNode<T, R>([NotNull] T data, R node) {
+class DataNode<T, R>(T data, R node) {
 
     public T Data { get; set; } = data;
     public R Node { get; set; } = node;
-
-    public override string ToString()
-    {
-        return $"Data: {Data!.ToString()}";
-    }
 }
 
 class TreeIter<T, R>
@@ -69,7 +64,7 @@ class TreeIter<T, R>
 
     public TreeIter(List<T> datas, Func<T,T,bool> childrenFilter, Func<T, R> dataToR)
     {
-        dataNodes = datas.Select(d => new DataNode<T, R>(d, dataToR(d))).ToList();
+        dataNodes = datas.Select(d => new DataNode<T, R>(d, dataToR(d))).Where(dn => dn != null && dn.Node != null).ToList();
         this.childrenFilter = childrenFilter;
     }
     
@@ -78,11 +73,13 @@ class TreeIter<T, R>
         for (int index = 0; index < dataNodes.Count; index++)
         {
             var node = dataNodes[index];
-            BuildChildren(node);
-            var currentIndex = dataNodes.FindIndex(dn => dn.Data.Equals(node.Data));
-            if(currentIndex >= 0)
-            {
-                index = currentIndex;
+            if (node != null) {
+                BuildChildren(node);
+                var currentIndex = dataNodes.FindIndex(dn => dn.Data.Equals(node.Data));
+                if(currentIndex >= 0)
+                {
+                    index = currentIndex;
+                }
             }
         }
         return dataNodes.Select(dn => dn.Node).ToArray();
